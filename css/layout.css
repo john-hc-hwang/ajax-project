@@ -20,10 +20,12 @@
 
 .mediaview {
   display: flex;
+  flex-direction: column;
 }
 
 @media screen and (min-width: 768px) {
   .mediaview {
+    flex-direction: row;
     flex-wrap: wrap;
   }
 
@@ -32,6 +34,7 @@
   }
 
   .column-half {
+    padding: 0 1rem;
     width: 50%;
   }
 }

@@ -99,6 +99,11 @@ header {
   margin-top: 0.5rem;
 }
 
+.fas.fa-plus-circle {
+  font-size: 2rem;
+  cursor: pointer;
+}
+
 .user-input {
   padding: 1.2rem 6rem;
   font-weight: bold;
@@ -109,4 +114,20 @@ header {
 
 .user-input:focus {
   outline: none;
+}
+
+img {
+  width: 100%;
+}
+
+h1 {
+  margin: 0.4rem 0;
+}
+
+p {
+  font-size: 1.2rem;
+}
+
+.float-right {
+  float: right;
 }
