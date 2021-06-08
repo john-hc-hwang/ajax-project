@@ -2,7 +2,8 @@ var $ = document.querySelector.bind(document);
 // var $$ = document.querySelectorAll.bind(document);
 
 var xhr;
-// var searchResults;
+var searchResults;
+var $divSearch = $(".search");
 var $searchButton = $('.fas.fa-glass-martini');
 var $userInput = $('.user-input');
 
@@ -18,8 +19,8 @@ function getData(name) {
   xhr.responseType = 'json';
   xhr.send();
   xhr.addEventListener('load', function () {
-    // console.log(xhr.status);
-    // console.log(xhr.response);
-    // searchResults = xhr.response;
+    console.log(xhr.status);
+    console.log(xhr.response);
+    searchResults = xhr.response.drinks;
   });
 }

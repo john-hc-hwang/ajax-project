@@ -18,7 +18,15 @@
   width: 100%;
 }
 
+.mediaview {
+  display: flex;
+}
+
 @media screen and (min-width: 768px) {
+  .mediaview {
+    flex-wrap: wrap;
+  }
+
   .container {
     max-width: 900px;
   }
