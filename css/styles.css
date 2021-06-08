@@ -1,0 +1,32 @@
+body {
+  font-family: "Caveat Brush", cursive;
+}
+
+header {
+  background-color: #48cae4;
+  padding: 0.8rem;
+}
+
+.main-heading {
+  font-family: "Dancing Script", cursive;
+  font-size: 60px;
+  margin: 0;
+}
+
+.fas.fa-cocktail {
+  font-size: 3.4rem;
+  margin-left: 0.7rem;
+  margin-top: 0.4rem;
+}
+
+.fas.fa-align-justify {
+  font-size: 3.4rem;
+  margin-left: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.far.fa-user {
+  font-size: 3.4rem;
+  margin-right: 0.5rem;
+  margin-top: 0.5rem;
+}
