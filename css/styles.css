@@ -55,6 +55,7 @@ header {
   font-family: "Dancing Script", cursive;
   font-size: 60px;
   margin: 0;
+  cursor: pointer;
 }
 
 .sub-heading {
@@ -130,4 +131,8 @@ p {
 
 .float-right {
   float: right;
+}
+
+.not-found {
+  color: red;
 }
