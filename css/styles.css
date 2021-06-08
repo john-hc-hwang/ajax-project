@@ -7,10 +7,74 @@ header {
   padding: 0.8rem;
 }
 
+.flex {
+  display: flex;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.color-torq {
+  background-color: #caf0f8;
+}
+
+.margin-top-32 {
+  margin-top: 32px;
+}
+
+.margin-top-16 {
+  margin-top: 16px;
+}
+
+.margin-bot-32 {
+  margin-bottom: 32px;
+}
+
+.margin-bot-16 {
+  margin-bottom: 16px;
+}
+
+.border-radius-5 {
+  border-radius: 5px;
+}
+
 .main-heading {
   font-family: "Dancing Script", cursive;
   font-size: 60px;
   margin: 0;
+}
+
+.sub-heading {
+  font-size: 60px;
+  margin: 1rem 0;
+}
+
+.relative {
+  position: relative;
+}
+
+.fas.fa-search {
+  position: absolute;
+  left: 1.4rem;
+  top: 0.6rem;
+  font-size: 3rem;
+}
+
+.fas.fa-glass-martini {
+  position: absolute;
+  top: 1rem;
+  right: 1.4rem;
+  font-size: 2.2rem;
+  cursor: pointer;
 }
 
 .fas.fa-cocktail {
@@ -29,4 +93,16 @@ header {
   font-size: 3.4rem;
   margin-right: 0.5rem;
   margin-top: 0.5rem;
+}
+
+.user-input {
+  padding: 1.2rem 6rem;
+  font-weight: bold;
+  font-size: 24px;
+  border-radius: 50px;
+  border-style: none;
+}
+
+.user-input:focus {
+  outline: none;
 }
