@@ -48,6 +48,7 @@ $backButtonTwo.addEventListener("click", function (event) {
   $divSearch.classList.add('hidden');
 });
 
+// go to My Cocktailz from Search Results
 $forwardButton.addEventListener("click", function (event) {
   $divMyCocktailz.classList.remove("hidden");
   $divSearchResults.classList.add('hidden');
@@ -69,11 +70,18 @@ $searchButton.addEventListener('click', function (event) {
   $divSearchResults.classList.remove('hidden');
 });
 
+// add drink to My Cocktailz feature
 $ulSearch.addEventListener("click", function (event) {
   if (event.target.getAttribute('data-entry-id') !== null) {
+    for (var i = 0; i < prevData.drinks.length; i++) {
+      var firstChild = $ulDrinks.firstElementChild;
+      $ulDrinks.removeChild(firstChild);
+    }
     var currentDrinkId = event.target.getAttribute("data-entry-id");
-    prevData.drinks.unshift(data.drinks[currentDrinkId]); // unshift adds a drink to existing prevData object***
-    $ulDrinks.prepend(renderShow(data.drinks[currentDrinkId])); // prepend to show added drink on My Cocktailz
+    prevData.drinks.unshift(data.drinks[currentDrinkId]); // unshift adds a drink to existing prevData object
+    for (var j = 0; j < prevData.drinks.length; j++) {
+      $ulDrinks.append(renderShow(prevData.drinks[j], j));
+    }
 
     $divMyCocktailz.classList.remove("hidden");
     $divSearchResults.classList.add("hidden");
@@ -82,7 +90,7 @@ $ulSearch.addEventListener("click", function (event) {
 
 window.addEventListener('DOMContentLoaded', function loadDom(event) {
   for (var i = 0; i < prevData.drinks.length; i++) {
-    $ulDrinks.append(renderShow(prevData.drinks[i]));
+    $ulDrinks.append(renderShow(prevData.drinks[i], i));
   }
 });
 
@@ -187,7 +195,7 @@ function renderSearch(data, id) {
   </div>
 </div> */
 
-function renderShow(data) {
+function renderShow(data, id) {
   var $divMediaview = $$$('div');
   $divMediaview.className = 'mediaview';
 
@@ -209,11 +217,12 @@ function renderShow(data) {
 
   var $minusButton = $$$('i');
   $minusButton.className = 'fas fa-minus-circle float-right';
-  // $minustButton.setAttribute("data-entry-id", id);
+  $minusButton.setAttribute("data-entry-id", "delete" + id);
   $div.appendChild($minusButton);
 
   var $editButton = $$$('i');
   $editButton.className = 'fas fa-pen float-right';
+  $editButton.setAttribute("data-entry-id", "edit" + id);
   $div.appendChild($editButton);
 
   var $h1 = $$$('h1');
@@ -223,6 +232,7 @@ function renderShow(data) {
   for (var k = 0; k < 5; k++) {
     var $starButton = $$$('i');
     $starButton.className = "far fa-star";
+    $starButton.setAttribute("data-entry-id", "star" + id);
     $div.appendChild($starButton);
   }
 
@@ -240,6 +250,7 @@ function renderShow(data) {
     }
   }
   $recipe.textContent = tempString;
+  data.recipe = tempString;
   $divColHalf2.appendChild($recipe);
 
   return $divMediaview;
