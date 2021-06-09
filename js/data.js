@@ -1,7 +1,8 @@
 /* exported data */
 
 var data = {
-  drinks: []
+  drinks: [],
+  editIndex: null
 };
 
 // strDrink: null,

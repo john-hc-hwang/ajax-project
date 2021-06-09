@@ -33,7 +33,31 @@
         <i class="fas fa-glass-martini"></i>
       </div>
     </div>
-
+    <form>
+      <div class="edit container hidden">
+        <h2 class="action-heading sub-heading text-center">Edit Cocktail</h2>
+        <div class="mediaview">
+          <div class="column-half">
+            <img class="image-prev" src="images/placeholder-image-square.jpg" alt="placeholder">
+          </div>
+          <div class="column-half">
+            <div class="flex flex-column">
+              <label for="picture-url">Picture URL:</label>
+              <input type="text" id="picture-url">
+              <label for="cocktail-name">Cocktail Name:</label>
+              <input type="text" id="cocktail-name">
+              <label for="cocktail-instr">Cocktail Instructions:</label>
+              <textarea id="cocktail-instr" cols="30" rows="10"></textarea>
+              <label for="cocktail-recipe">Cocktail Recipe:</label>
+              <input type="text" id="cocktail-recipe">
+              <div>
+                <button class="action-button float-right">Edit</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
     <div class="search-results container hidden">
       <i class="back-one fas fa-arrow-alt-circle-left float-left"></i>
       <i class="fas fa-arrow-alt-circle-right float-right"></i>
