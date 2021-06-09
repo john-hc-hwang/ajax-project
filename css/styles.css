@@ -105,6 +105,24 @@ header {
   cursor: pointer;
 }
 
+.fas.fa-minus-circle {
+  font-size: 2rem;
+  margin-top: 0.3rem;
+  cursor: pointer;
+}
+
+.fas.fa-pen {
+  font-size: 1.6rem;
+  cursor: pointer;
+  margin-top: 0.6rem;
+  margin-right: 1rem;
+}
+
+.far.fa-star {
+  font-size: 2rem;
+  cursor: pointer;
+}
+
 .user-input {
   padding: 1.2rem 6rem;
   font-weight: bold;
