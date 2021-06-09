@@ -88,6 +88,7 @@ $ulSearch.addEventListener("click", function (event) {
   }
 });
 
+// on refresh fill My Cocktailz with prevData
 window.addEventListener('DOMContentLoaded', function loadDom(event) {
   for (var i = 0; i < prevData.drinks.length; i++) {
     $ulDrinks.append(renderShow(prevData.drinks[i], i));
@@ -166,9 +167,10 @@ function renderSearch(data, id) {
     var ingredients = 'strIngredient' + i;
     var measure = 'strMeasure' + i;
     if (data[ingredients] !== null && data[measure] !== null) {
-      tempString += data[ingredients] + ' ' + data[measure] + '  ';
+      tempString += data[ingredients] + ' ' + data[measure] + ' & ';
     }
   }
+  tempString = tempString.slice(0, tempString.length - 3);
   $recipe.textContent = tempString;
   $divColHalf2.appendChild($recipe);
 
@@ -246,9 +248,10 @@ function renderShow(data, id) {
     var ingredients = 'strIngredient' + i;
     var measure = 'strMeasure' + i;
     if (data[ingredients] !== null && data[measure] !== null) {
-      tempString += data[ingredients] + ' ' + data[measure] + '  ';
+      tempString += data[ingredients] + ' ' + data[measure] + ' & ';
     }
   }
+  tempString = tempString.slice(0, tempString.length - 3);
   $recipe.textContent = tempString;
   data.recipe = tempString;
   $divColHalf2.appendChild($recipe);
