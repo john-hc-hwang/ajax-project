@@ -98,6 +98,19 @@ header {
   font-size: 3.4rem;
   margin-right: 0.5rem;
   margin-top: 0.5rem;
+  cursor: pointer;
+}
+
+.fas.fa-arrow-alt-circle-right {
+  font-size: 3rem;
+  margin-top: 1rem;
+  cursor: pointer;
+}
+
+.fas.fa-arrow-alt-circle-left {
+  font-size: 3rem;
+  margin-top: 1rem;
+  cursor: pointer;
 }
 
 .fas.fa-plus-circle {
@@ -149,6 +162,10 @@ p {
 
 .float-right {
   float: right;
+}
+
+.float-left {
+  float: left;
 }
 
 .not-found {

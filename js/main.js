@@ -9,18 +9,52 @@ var $divSearch = $('.search');
 var $divSearchResults = $('.search-results');
 var $divMyCocktailz = $(".my-cocktailz");
 var $searchButton = $('.fas.fa-glass-martini');
+var $backButtonOne = $(".back-one");
+var $backButtonTwo = $(".back-two");
+var $forwardButton = $(".fas.fa-arrow-alt-circle-right");
 var $notFound = $('.not-found');
+var $userLogo = $(".far.fa-user");
 var $userInput = $('.user-input');
 var $ulSearch = $('.ul-search');
 var $ulDrinks = $(".ul-drinks");
 
 // Event Listeners
+
+// show search bar when main heading is clicked
 $mainHeading.addEventListener('click', function (event) {
   $divSearchResults.classList.add('hidden');
   $divMyCocktailz.classList.add("hidden");
   $divSearch.classList.remove('hidden');
 });
 
+// show My Cocktailz when user logo is clicked
+$userLogo.addEventListener('click', function (event) {
+  $divMyCocktailz.classList.remove("hidden");
+  $divSearchResults.classList.add('hidden');
+  $divSearch.classList.add('hidden');
+});
+
+// return from Search Results to main page
+$backButtonOne.addEventListener("click", function (event) {
+  $divSearchResults.classList.add('hidden');
+  $divMyCocktailz.classList.add("hidden");
+  $divSearch.classList.remove('hidden');
+});
+
+// return from My Cocktailz to search results
+$backButtonTwo.addEventListener("click", function (event) {
+  $divMyCocktailz.classList.add("hidden");
+  $divSearchResults.classList.remove('hidden');
+  $divSearch.classList.add('hidden');
+});
+
+$forwardButton.addEventListener("click", function (event) {
+  $divMyCocktailz.classList.remove("hidden");
+  $divSearchResults.classList.add('hidden');
+  $divSearch.classList.add('hidden');
+});
+
+// remove prev search results and show new results
 $searchButton.addEventListener('click', function (event) {
   $notFound.classList.add('hidden'); // prevents user from seeing not found message
   if (data.drinks !== null) {
