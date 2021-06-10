@@ -1,4 +1,5 @@
 /* exported data */
+/* exported prevData */
 
 var data = {
   drinks: [],
@@ -6,14 +7,9 @@ var data = {
   deleteIndex: null
 };
 
-// strDrink: null,
-// strInstructions: null,
-// strRecipe: null,
-// strDrinkThumb: null
-
 var prevData = {
   drinks: []
-}
+};
 
 // beforeunload, store existing prevData.drinks to local storage
 window.addEventListener('beforeunload', function (event) {
