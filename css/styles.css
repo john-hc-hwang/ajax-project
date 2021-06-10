@@ -98,6 +98,19 @@ header {
   font-size: 3.4rem;
   margin-right: 0.5rem;
   margin-top: 0.5rem;
+  cursor: pointer;
+}
+
+.fas.fa-arrow-alt-circle-right {
+  font-size: 3rem;
+  margin-top: 1rem;
+  cursor: pointer;
+}
+
+.fas.fa-arrow-alt-circle-left {
+  font-size: 3rem;
+  margin-top: 1rem;
+  cursor: pointer;
 }
 
 .fas.fa-plus-circle {
@@ -119,6 +132,11 @@ header {
 }
 
 .far.fa-star {
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.fas.fa-star {
   font-size: 2rem;
   cursor: pointer;
 }
@@ -147,8 +165,45 @@ p {
   font-size: 1.2rem;
 }
 
+label {
+  font-size: 1.4rem;
+}
+
+button {
+  background-color: #caf0f8;
+  font-size: 1.4rem;
+  font-weight: bold;
+  border-style: none;
+  border-radius: 50px;
+  padding: 1rem 1.4rem;
+  margin-top: 1rem;
+  cursor: pointer;
+}
+
+.flex.flex-column > input {
+  background-color: #caf0f8;
+  border-style: none;
+  outline: none;
+  font-size: 1.2rem;
+  border-radius: 50px;
+  padding: 0.7rem 1.4rem;
+}
+
+.flex.flex-column > textarea {
+  background-color: #caf0f8;
+  font-size: 1.2rem;
+  border-style: none;
+  outline: none;
+  border-radius: 5px;
+  padding: 0.7rem 1rem;
+}
+
 .float-right {
   float: right;
+}
+
+.float-left {
+  float: left;
 }
 
 .not-found {
