@@ -96,15 +96,6 @@ $searchButton.addEventListener('click', function (event) {
   $divSearchResults.classList.remove('hidden');
 });
 
-// var $divEdit = $(".edit");
-// var $actionHeading = $(".action-heading");
-// var $imagePrev = $(".image-prev");
-// var $pictureURL = $("#picture-url");
-// var $cocktailName = $("#cocktail-name");
-// var $cocktailInstr = $("#cocktail-instr");
-// var $cocktailRecipe = $("#cocktail-recipe");
-// var $actionButton = $(".action-button");
-
 $addButton.addEventListener('click', function (event) {
   if (data.editIndex === null) {
     $form.reset();
@@ -427,6 +418,7 @@ function renderShow(data, id) {
     $recipe.textContent = data.recipe;
   } else {
     data.recipe = tempString;
+    $recipe.textContent = data.recipe;
   }
   $divColHalf2.appendChild($recipe);
 
