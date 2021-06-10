@@ -1,5 +1,5 @@
 var $ = document.querySelector.bind(document);
-// var $$ = document.querySelectorAll.bind(document);
+var $$ = document.querySelectorAll.bind(document);
 var $$$ = document.createElement.bind(document);
 
 // global declartion & dom query
@@ -132,8 +132,6 @@ $form.addEventListener('submit', function (event) {
     }
   }
 
-
-
   $form.reset();
   $imagePrev.setAttribute('src', 'images/placeholder-image-square.jpg');
   $imagePrev.setAttribute('alt', 'placeholder');
@@ -147,17 +145,68 @@ $form.addEventListener('submit', function (event) {
 $ulDrinks.addEventListener("click", function (event) {
   if (event.target.getAttribute('data-entry-id') !== null && event.target.getAttribute("data-entry-id").slice(0, 4) === "edit") {
     data.editIndex = Number(event.target.getAttribute("data-entry-id").slice(4));
-    var editIndex = Number(event.target.getAttribute("data-entry-id").slice(4));
     $actionHeading.textContent = "Edit Cocktail";
-    $imagePrev.setAttribute("src", prevData.drinks[editIndex].strDrinkThumb);
-    $imagePrev.setAttribute("alt", prevData.drinks[editIndex].strDrink);
-    $pictureURL.value = prevData.drinks[editIndex].strDrinkThumb;
-    $cocktailName.value = prevData.drinks[editIndex].strDrink;
-    $cocktailInstr.value = prevData.drinks[editIndex].strInstructions;
-    $cocktailRecipe.value = prevData.drinks[editIndex].recipe;
+    $imagePrev.setAttribute("src", prevData.drinks[data.editIndex].strDrinkThumb);
+    $imagePrev.setAttribute("alt", prevData.drinks[data.editIndex].strDrink);
+    $pictureURL.value = prevData.drinks[data.editIndex].strDrinkThumb;
+    $cocktailName.value = prevData.drinks[data.editIndex].strDrink;
+    $cocktailInstr.value = prevData.drinks[data.editIndex].strInstructions;
+    $cocktailRecipe.value = prevData.drinks[data.editIndex].recipe;
 
     $divMyCocktailz.classList.add("hidden");
     $divEdit.classList.remove("hidden");
+  }
+
+  if (event.target.getAttribute('data-entry-id') !== null && event.target.getAttribute("data-entry-id").slice(0, 6) === "delete") {
+    data.deleteIndex = Number(event.target.getAttribute("data-entry-id").slice(6));
+    prevData.drinks.splice(data.deleteIndex, 1);
+
+    for (var i = 0; i < prevData.drinks.length + 1; i++) {
+      var firstChild = $ulDrinks.firstElementChild;
+      $ulDrinks.removeChild(firstChild);
+    }
+
+    for (var j = 0; j < prevData.drinks.length; j++) {
+      $ulDrinks.append(renderShow(prevData.drinks[j], j));
+    }
+  }
+
+  if (event.target.getAttribute('data-entry-id') !== null && event.target.getAttribute("data-entry-id").slice(0, 4) === "star") {
+    var check = true;
+    var howManyChecked = 0;
+    var starPos = event.target.getAttribute("data-entry-id");
+    var starSelector = "i[data-entry-id='" + starPos + "']";
+    var starIndex = event.target.getAttribute("star-index");
+    var $$stars = $$(starSelector);
+    for (var z = 0; z < 5; z++) {
+      if ($$stars[z].classList.contains("fas")) howManyChecked++;
+    }
+
+    for (var k = 0; k < 5; k++) {
+      if ($$stars[k].getAttribute("star-index") === starIndex && $$stars[starIndex].classList.contains("far")) {
+        for (var x = 0; x <= starIndex; x++) {
+          $$stars[x].classList.replace("far", "fas");
+        }
+        check = false;
+      }
+      if (check) {
+        if ($$stars[k].getAttribute("star-index") === starIndex && $$stars[starIndex].classList.contains("fas")) {
+          for (var y = 0; y <= starIndex; y++) {
+            $$stars[y].classList.replace("fas", "far");
+          }
+        }
+      }
+    }
+    // final check to appropriately rates star for UX
+    if (Number(starIndex) + 1 < howManyChecked) {
+      for (var a = 0; a < 5; a++) {
+        $$stars[a].classList.replace("fas", "far");
+      }
+
+      for (var b = 0; b <= starIndex; b++) {
+        $$stars[b].classList.replace("far", "fas");
+      }
+    }
   }
 });
 
@@ -315,6 +364,7 @@ function renderShow(data, id) {
     var $starButton = $$$('i');
     $starButton.className = "far fa-star";
     $starButton.setAttribute("data-entry-id", "star" + id);
+    $starButton.setAttribute("star-index", k);
     $div.appendChild($starButton);
   }
 

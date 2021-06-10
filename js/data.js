@@ -2,7 +2,8 @@
 
 var data = {
   drinks: [],
-  editIndex: null
+  editIndex: null,
+  deleteIndex: null
 };
 
 // strDrink: null,
