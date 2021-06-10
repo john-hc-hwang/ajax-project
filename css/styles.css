@@ -147,6 +147,14 @@ header {
   font-size: 24px;
   border-radius: 50px;
   border-style: none;
+  margin-bottom: 2rem;
+}
+
+.add-button {
+  font-family: "Caveat Brush", cursive;
+  background-color: white;
+  padding: 0.6rem 3rem;
+  margin-bottom: 3.2rem;
 }
 
 .user-input:focus {

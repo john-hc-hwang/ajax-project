@@ -8,6 +8,7 @@ var $$$ = document.createElement.bind(document);
 // global declartion & dom query
 var xhr;
 var $mainHeading = $('.main-heading');
+var $divAdd = $('.add');
 var $divSearch = $('.search');
 var $divSearchResults = $('.search-results');
 var $divMyCocktailz = $('.my-cocktailz');
@@ -20,9 +21,9 @@ var $pictureURL = $('#picture-url');
 var $cocktailName = $('#cocktail-name');
 var $cocktailInstr = $('#cocktail-instr');
 var $cocktailRecipe = $('#cocktail-recipe');
-// var $actionButton = $(".action-button");
-// Will need action button for textContent new cocktail
+var $actionButton = $('.action-button');
 
+var $addButton = $('.add-button');
 var $searchButton = $('.fas.fa-glass-martini');
 var $backButtonOne = $('.back-one');
 var $backButtonTwo = $('.back-two');
@@ -41,6 +42,7 @@ $mainHeading.addEventListener('click', function (event) {
   $divMyCocktailz.classList.add('hidden');
   $divEdit.classList.add('hidden');
   $divSearch.classList.remove('hidden');
+  $divAdd.classList.remove('hidden');
   data.editIndex = null;
 });
 
@@ -50,6 +52,7 @@ $userLogo.addEventListener('click', function (event) {
   $divSearchResults.classList.add('hidden');
   $divEdit.classList.add('hidden');
   $divSearch.classList.add('hidden');
+  $divAdd.classList.add('hidden');
   data.editIndex = null;
 });
 
@@ -58,6 +61,7 @@ $backButtonOne.addEventListener('click', function (event) {
   $divSearchResults.classList.add('hidden');
   $divMyCocktailz.classList.add('hidden');
   $divSearch.classList.remove('hidden');
+  $divAdd.classList.remove('hidden');
 });
 
 // return from My Cocktailz to search results
@@ -65,6 +69,7 @@ $backButtonTwo.addEventListener('click', function (event) {
   $divMyCocktailz.classList.add('hidden');
   $divSearchResults.classList.remove('hidden');
   $divSearch.classList.add('hidden');
+  $divAdd.classList.add('hidden');
 });
 
 // go to My Cocktailz from Search Results
@@ -72,6 +77,7 @@ $forwardButton.addEventListener('click', function (event) {
   $divMyCocktailz.classList.remove('hidden');
   $divSearchResults.classList.add('hidden');
   $divSearch.classList.add('hidden');
+  $divAdd.classList.add('hidden');
 });
 
 // remove prev search results and show new results
@@ -85,8 +91,23 @@ $searchButton.addEventListener('click', function (event) {
   }
   getData($userInput.value); // gets data and sets data.drinks to api response
   $userInput.value = '';
+  $divAdd.classList.add('hidden');
   $divSearch.classList.add('hidden');
   $divSearchResults.classList.remove('hidden');
+});
+
+$addButton.addEventListener('click', function (event) {
+  if (data.editIndex === null) {
+    $form.reset();
+    $imagePrev.setAttribute('src', 'images/placeholder-image-square.jpg');
+    $imagePrev.setAttribute('alt', 'placeholder');
+    $actionHeading.textContent = 'New Cocktail';
+    $actionButton.textContent = 'Add';
+
+    $divSearch.classList.add('hidden');
+    $divAdd.classList.add('hidden');
+    $divEdit.classList.remove('hidden');
+  }
 });
 
 // add drink to My Cocktailz feature
@@ -107,16 +128,6 @@ $ulSearch.addEventListener('click', function (event) {
   }
 });
 
-// var $form = document.forms[0];
-// var $divEdit = $(".edit");
-// var $actionHeading = $(".action-heading");
-// var $imagePrev = $(".image-prev");
-// var $pictureURL = $("#picture-url");
-// var $cocktailName = $("#cocktail-name");
-// var $cocktailInstr = $("#cocktail-instr");
-// var $cocktailRecipe = $("#cocktail-recipe");
-// var $actionButton = $(".action-button");
-
 // on submit edit drinks in My Cocktailz
 $form.addEventListener('submit', function (event) {
   event.preventDefault();
@@ -124,7 +135,7 @@ $form.addEventListener('submit', function (event) {
     prevData.drinks[data.editIndex].strDrinkThumb = $pictureURL.value;
     prevData.drinks[data.editIndex].strDrink = $cocktailName.value;
     prevData.drinks[data.editIndex].strInstructions = $cocktailInstr.value;
-    prevData.drinks[data.editIndex].recipe = $pictureURL.value;
+    prevData.drinks[data.editIndex].recipe = $cocktailRecipe.value;
 
     for (var i = 0; i < prevData.drinks.length; i++) {
       var firstChild = $ulDrinks.firstElementChild;
@@ -133,6 +144,22 @@ $form.addEventListener('submit', function (event) {
 
     for (var j = 0; j < prevData.drinks.length; j++) {
       $ulDrinks.append(renderShow(prevData.drinks[j], j));
+    }
+  } else {
+    var tempObj = {};
+    tempObj.strDrinkThumb = $pictureURL.value;
+    tempObj.strDrink = $cocktailName.value;
+    tempObj.strInstructions = $cocktailInstr.value;
+    tempObj.recipe = $cocktailRecipe.value;
+    prevData.drinks.unshift(tempObj);
+
+    for (var x = 0; x < prevData.drinks.length - 1; x++) {
+      firstChild = $ulDrinks.firstElementChild;
+      $ulDrinks.removeChild(firstChild);
+    }
+
+    for (var y = 0; y < prevData.drinks.length; y++) {
+      $ulDrinks.append(renderShow(prevData.drinks[y], y));
     }
   }
 
@@ -150,6 +177,7 @@ $ulDrinks.addEventListener('click', function (event) {
   if (event.target.getAttribute('data-entry-id') !== null && event.target.getAttribute('data-entry-id').slice(0, 4) === 'edit') {
     data.editIndex = Number(event.target.getAttribute('data-entry-id').slice(4));
     $actionHeading.textContent = 'Edit Cocktail';
+    $actionButton.textContent = 'Edit';
     $imagePrev.setAttribute('src', prevData.drinks[data.editIndex].strDrinkThumb);
     $imagePrev.setAttribute('alt', prevData.drinks[data.editIndex].strDrink);
     $pictureURL.value = prevData.drinks[data.editIndex].strDrinkThumb;
@@ -381,13 +409,17 @@ function renderShow(data, id) {
   for (var i = 1; i <= 15; i++) {
     var ingredients = 'strIngredient' + i;
     var measure = 'strMeasure' + i;
-    if (data[ingredients] !== null && data[measure] !== null) {
+    if (data[ingredients] !== null && data[measure] !== null && data[ingredients] !== undefined && data[measure] !== undefined) {
       tempString += data[ingredients] + ' ' + data[measure] + ' & ';
     }
   }
   tempString = tempString.slice(0, tempString.length - 3);
-  $recipe.textContent = tempString;
-  data.recipe = tempString;
+  if (tempString === '') {
+    $recipe.textContent = data.recipe;
+  } else {
+    data.recipe = tempString;
+    $recipe.textContent = data.recipe;
+  }
   $divColHalf2.appendChild($recipe);
 
   return $divMediaview;
