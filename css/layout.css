@@ -8,6 +8,15 @@
   padding: 0 1.5rem;
 }
 
+.tab-container {
+  width: 300px;
+  height: 100vh;
+  position: fixed;
+  top: 98px;
+  z-index: 1;
+  background-color: #61a5c2;
+}
+
 .row {
   display: flex;
   flex-wrap: wrap;

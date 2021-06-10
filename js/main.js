@@ -8,6 +8,7 @@ var $$$ = document.createElement.bind(document);
 // global declartion & dom query
 var xhr;
 var $mainHeading = $('.main-heading');
+var $divTab = $('.tab-container');
 var $divAdd = $('.add');
 var $divSearch = $('.search');
 var $divSearchResults = $('.search-results');
@@ -23,6 +24,11 @@ var $cocktailInstr = $('#cocktail-instr');
 var $cocktailRecipe = $('#cocktail-recipe');
 var $actionButton = $('.action-button');
 
+var $tab = $('.fas.fa-align-justify');
+var $searchTab = $('.search-tab');
+var $myTab = $('.my-tab');
+var $homeTab = $('.home-tab');
+
 var $addButton = $('.add-button');
 var $searchButton = $('.fas.fa-glass-martini');
 var $backButtonOne = $('.back-one');
@@ -35,6 +41,42 @@ var $ulSearch = $('.ul-search');
 var $ulDrinks = $('.ul-drinks');
 
 // Event Listeners
+
+// open tab when clicked
+$tab.addEventListener('click', function (event) {
+  if ($divTab.classList.contains('hidden')) {
+    $divTab.classList.remove('hidden');
+  } else {
+    $divTab.classList.add('hidden');
+  }
+});
+
+$homeTab.addEventListener('click', function (event) {
+  $divTab.classList.add('hidden');
+  $divMyCocktailz.classList.add('hidden');
+  $divEdit.classList.add('hidden');
+  $divSearchResults.classList.add('hidden');
+  $divSearch.classList.remove('hidden');
+  $divAdd.classList.remove('hidden');
+});
+
+$searchTab.addEventListener('click', function (event) {
+  $divTab.classList.add('hidden');
+  $divSearch.classList.add('hidden');
+  $divAdd.classList.add('hidden');
+  $divMyCocktailz.classList.add('hidden');
+  $divEdit.classList.add('hidden');
+  $divSearchResults.classList.remove('hidden');
+});
+
+$myTab.addEventListener('click', function (event) {
+  $divTab.classList.add('hidden');
+  $divSearch.classList.add('hidden');
+  $divAdd.classList.add('hidden');
+  $divEdit.classList.add('hidden');
+  $divSearchResults.classList.add('hidden');
+  $divMyCocktailz.classList.remove('hidden');
+});
 
 // show search bar when main heading is clicked
 $mainHeading.addEventListener('click', function (event) {
