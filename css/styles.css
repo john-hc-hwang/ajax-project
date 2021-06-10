@@ -92,6 +92,7 @@ header {
   font-size: 3.4rem;
   margin-left: 0.5rem;
   margin-top: 0.5rem;
+  cursor: pointer;
 }
 
 .far.fa-user {
@@ -161,6 +162,25 @@ header {
   outline: none;
 }
 
+button {
+  background-color: #caf0f8;
+  font-size: 1.4rem;
+  font-weight: bold;
+  border-style: none;
+  border-radius: 50px;
+  padding: 1rem 1.4rem;
+  margin-top: 1rem;
+  cursor: pointer;
+}
+
+.tab-container > button {
+  font-family: "Caveat Brush", cursive;
+  font-size: 2rem;
+  background-color: white;
+  width: 80%;
+  height: 80px;
+}
+
 img {
   width: 100%;
 }
@@ -175,17 +195,6 @@ p {
 
 label {
   font-size: 1.4rem;
-}
-
-button {
-  background-color: #caf0f8;
-  font-size: 1.4rem;
-  font-weight: bold;
-  border-style: none;
-  border-radius: 50px;
-  padding: 1rem 1.4rem;
-  margin-top: 1rem;
-  cursor: pointer;
 }
 
 .flex.flex-column > input {
