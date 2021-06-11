@@ -201,6 +201,7 @@ $ulDrinks.addEventListener('click', function (event) {
   if (event.target.getAttribute('data-entry-id') !== null && event.target.getAttribute('data-entry-id').slice(0, 4) === 'star') {
     var check = true;
     var howManyChecked = 0;
+    var colorCheck = 0;
     var starPos = event.target.getAttribute('data-entry-id');
     var starSelector = "i[data-entry-id='" + starPos + "']";
     var starIndex = event.target.getAttribute('star-index');
@@ -213,13 +214,15 @@ $ulDrinks.addEventListener('click', function (event) {
       if ($$stars[k].getAttribute('star-index') === starIndex && $$stars[starIndex].classList.contains('far')) {
         for (var x = 0; x <= starIndex; x++) {
           $$stars[x].classList.replace('far', 'fas');
+          colorCheck++;
         }
         check = false;
       }
       if (check) {
         if ($$stars[k].getAttribute('star-index') === starIndex && $$stars[starIndex].classList.contains('fas')) {
           for (var y = 0; y <= starIndex; y++) {
-            $$stars[y].classList.replace('fas', 'far');
+            // $$stars[y].classList.replace('fas', 'far');
+            $$stars[y].className = 'far fa-star';
           }
         }
       }
@@ -227,12 +230,19 @@ $ulDrinks.addEventListener('click', function (event) {
     // final check to appropriately rates star for UX
     if (Number(starIndex) + 1 < howManyChecked) {
       for (var a = 0; a < 5; a++) {
-        $$stars[a].classList.replace('fas', 'far');
+        $$stars[a].className = 'far fa-star';
       }
 
       for (var b = 0; b <= starIndex; b++) {
         $$stars[b].classList.replace('far', 'fas');
+        colorCheck++;
       }
+    }
+
+    var colors = ['red', 'orange', 'yellow', 'green', 'torq'];
+
+    for (var colorIndex = 0; colorIndex < colorCheck; colorIndex++) {
+      $$stars[colorIndex].classList.add(colors[colorIndex]);
     }
   }
 });

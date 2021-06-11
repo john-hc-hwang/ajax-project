@@ -226,3 +226,23 @@ label {
 .not-found {
   color: red;
 }
+
+.red {
+  color: red;
+}
+
+.orange {
+  color: orange;
+}
+
+.yellow {
+  color: yellow;
+}
+
+.green {
+  color: greenyellow;
+}
+
+.torq {
+  color: #caf0f8;
+}
