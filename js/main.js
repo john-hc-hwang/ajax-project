@@ -8,9 +8,8 @@ var $$$ = document.createElement.bind(document);
 // global declartion & dom query
 var xhr;
 var $mainHeading = $('.main-heading');
+var $divMain = $('.main-page');
 var $divTab = $('.tab-container');
-var $divAdd = $('.add');
-var $divSearch = $('.search');
 var $divSearchResults = $('.search-results');
 var $divMyCocktailz = $('.my-cocktailz');
 
@@ -40,6 +39,8 @@ var $userInput = $('.user-input');
 var $ulSearch = $('.ul-search');
 var $ulDrinks = $('.ul-drinks');
 
+var showLists = [$divMain, $divTab, $divEdit, $divMyCocktailz, $divSearchResults];
+
 // Event Listeners
 
 // open tab when clicked
@@ -52,74 +53,37 @@ $tab.addEventListener('click', function (event) {
 });
 
 $homeTab.addEventListener('click', function (event) {
-  $divTab.classList.add('hidden');
-  $divMyCocktailz.classList.add('hidden');
-  $divEdit.classList.add('hidden');
-  $divSearchResults.classList.add('hidden');
-  $divSearch.classList.remove('hidden');
-  $divAdd.classList.remove('hidden');
+  showList($divMain);
 });
 
 $searchTab.addEventListener('click', function (event) {
-  $divTab.classList.add('hidden');
-  $divSearch.classList.add('hidden');
-  $divAdd.classList.add('hidden');
-  $divMyCocktailz.classList.add('hidden');
-  $divEdit.classList.add('hidden');
-  $divSearchResults.classList.remove('hidden');
+  showList($divSearchResults);
 });
 
 $myTab.addEventListener('click', function (event) {
-  $divTab.classList.add('hidden');
-  $divSearch.classList.add('hidden');
-  $divAdd.classList.add('hidden');
-  $divEdit.classList.add('hidden');
-  $divSearchResults.classList.add('hidden');
-  $divMyCocktailz.classList.remove('hidden');
+  showList($divMyCocktailz);
 });
 
-// show search bar when main heading is clicked
 $mainHeading.addEventListener('click', function (event) {
-  $divSearchResults.classList.add('hidden');
-  $divMyCocktailz.classList.add('hidden');
-  $divEdit.classList.add('hidden');
-  $divSearch.classList.remove('hidden');
-  $divAdd.classList.remove('hidden');
+  showList($divMain);
   data.editIndex = null;
 });
 
-// show My Cocktailz when user logo is clicked
 $userLogo.addEventListener('click', function (event) {
-  $divMyCocktailz.classList.remove('hidden');
-  $divSearchResults.classList.add('hidden');
-  $divEdit.classList.add('hidden');
-  $divSearch.classList.add('hidden');
-  $divAdd.classList.add('hidden');
+  showList($divMyCocktailz);
   data.editIndex = null;
 });
 
-// return from Search Results to main page
 $backButtonOne.addEventListener('click', function (event) {
-  $divSearchResults.classList.add('hidden');
-  $divMyCocktailz.classList.add('hidden');
-  $divSearch.classList.remove('hidden');
-  $divAdd.classList.remove('hidden');
+  showList($divMain);
 });
 
-// return from My Cocktailz to search results
 $backButtonTwo.addEventListener('click', function (event) {
-  $divMyCocktailz.classList.add('hidden');
-  $divSearchResults.classList.remove('hidden');
-  $divSearch.classList.add('hidden');
-  $divAdd.classList.add('hidden');
+  showList($divSearchResults);
 });
 
-// go to My Cocktailz from Search Results
 $forwardButton.addEventListener('click', function (event) {
-  $divMyCocktailz.classList.remove('hidden');
-  $divSearchResults.classList.add('hidden');
-  $divSearch.classList.add('hidden');
-  $divAdd.classList.add('hidden');
+  showList($divMyCocktailz);
 });
 
 // remove prev search results and show new results
@@ -133,9 +97,7 @@ $searchButton.addEventListener('click', function (event) {
   }
   getData($userInput.value); // gets data and sets data.drinks to api response
   $userInput.value = '';
-  $divAdd.classList.add('hidden');
-  $divSearch.classList.add('hidden');
-  $divSearchResults.classList.remove('hidden');
+  showList($divSearchResults);
 });
 
 $addButton.addEventListener('click', function (event) {
@@ -145,10 +107,7 @@ $addButton.addEventListener('click', function (event) {
     $imagePrev.setAttribute('alt', 'placeholder');
     $actionHeading.textContent = 'New Cocktail';
     $actionButton.textContent = 'Add';
-
-    $divSearch.classList.add('hidden');
-    $divAdd.classList.add('hidden');
-    $divEdit.classList.remove('hidden');
+    showList($divEdit);
   }
 });
 
@@ -164,9 +123,7 @@ $ulSearch.addEventListener('click', function (event) {
     for (var j = 0; j < prevData.drinks.length; j++) {
       $ulDrinks.append(renderShow(prevData.drinks[j], j));
     }
-
-    $divMyCocktailz.classList.remove('hidden');
-    $divSearchResults.classList.add('hidden');
+    showList($divMyCocktailz);
   }
 });
 
@@ -209,9 +166,7 @@ $form.addEventListener('submit', function (event) {
   $imagePrev.setAttribute('src', 'images/placeholder-image-square.jpg');
   $imagePrev.setAttribute('alt', 'placeholder');
   data.editIndex = null;
-
-  $divEdit.classList.add('hidden');
-  $divMyCocktailz.classList.remove('hidden');
+  showList($divMyCocktailz);
 });
 
 // Edit, Delete, Rate drinks in My Cocktailz
@@ -226,9 +181,7 @@ $ulDrinks.addEventListener('click', function (event) {
     $cocktailName.value = prevData.drinks[data.editIndex].strDrink;
     $cocktailInstr.value = prevData.drinks[data.editIndex].strInstructions;
     $cocktailRecipe.value = prevData.drinks[data.editIndex].recipe;
-
-    $divMyCocktailz.classList.add('hidden');
-    $divEdit.classList.remove('hidden');
+    showList($divEdit);
   }
 
   if (event.target.getAttribute('data-entry-id') !== null && event.target.getAttribute('data-entry-id').slice(0, 6) === 'delete') {
@@ -315,6 +268,16 @@ function getData(name) {
       $notFound.classList.remove('hidden');
     }
   });
+}
+
+function showList(target) {
+  for (var div of showLists) {
+    if (div === target) {
+      target.classList.remove('hidden');
+    } else {
+      div.classList.add('hidden');
+    }
+  }
 }
 
 /* <div class="mediaview">
