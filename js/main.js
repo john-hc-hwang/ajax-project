@@ -42,7 +42,6 @@ var $ulDrinks = $('.ul-drinks');
 var showLists = [$divMain, $divTab, $divEdit, $divMyCocktailz, $divSearchResults];
 
 // Event Listeners
-
 // open tab when clicked
 $tab.addEventListener('click', function (event) {
   if ($divTab.classList.contains('hidden')) {
@@ -221,7 +220,6 @@ $ulDrinks.addEventListener('click', function (event) {
       if (check) {
         if ($$stars[k].getAttribute('star-index') === starIndex && $$stars[starIndex].classList.contains('fas')) {
           for (var y = 0; y <= starIndex; y++) {
-            // $$stars[y].classList.replace('fas', 'far');
             $$stars[y].className = 'far fa-star';
           }
         }
