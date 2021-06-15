@@ -32,6 +32,13 @@
   flex-direction: column;
 }
 
+@media all and (max-width: 375px) {
+  .container {
+    max-width: 375px;
+    margin: 0 auto;
+  }
+}
+
 @media all and (min-width: 768px) {
   .mediaview {
     flex-direction: row;
