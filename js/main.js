@@ -99,6 +99,7 @@ $searchButton.addEventListener('click', function (event) {
   showList($divSearchResults);
 });
 
+// allows user to add a new cocktail
 $addButton.addEventListener('click', function (event) {
   if (data.editIndex === null) {
     $form.reset();
@@ -237,6 +238,7 @@ $ulDrinks.addEventListener('click', function (event) {
       }
     }
 
+    // give stars colors depending on how many
     var colors = ['red', 'orange', 'yellow', 'green', 'torq'];
 
     for (var colorIndex = 0; colorIndex < colorCheck; colorIndex++) {
@@ -245,6 +247,7 @@ $ulDrinks.addEventListener('click', function (event) {
   }
 });
 
+// allows users to see the preview of the image
 $pictureURL.addEventListener('input', function (event) {
   $imagePrev.setAttribute('src', event.target.value);
   if (event.target.value === '') {
