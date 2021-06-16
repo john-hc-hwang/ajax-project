@@ -281,6 +281,7 @@ function getData(name) {
   });
 }
 
+// show and hide targeted divs appropriately
 function showList(target) {
   for (var div of showLists) {
     if (div === target) {
@@ -305,6 +306,7 @@ function showList(target) {
   </div>
 </div> */
 
+// return DOM for search results
 function renderSearch(data, id) {
   var $divMediaview = $$$('div');
   $divMediaview.className = 'mediaview';
@@ -374,6 +376,7 @@ function renderSearch(data, id) {
   </div>
 </div> */
 
+// return DOM for cocktails added from search results
 function renderShow(data, id) {
   var $divMediaview = $$$('div');
   $divMediaview.className = 'mediaview';
