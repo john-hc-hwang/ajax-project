@@ -152,6 +152,8 @@ $ulSearch.addEventListener('click', function (event) {
     for (var j = 0; j < prevData.drinks.length; j++) {
       $ulDrinks.append(renderShow(prevData.drinks[j], j));
     }
+    starCheck();
+
     showList($divMyCocktailz);
   }
 });
@@ -173,6 +175,7 @@ $form.addEventListener('submit', function (event) {
     for (var j = 0; j < prevData.drinks.length; j++) {
       $ulDrinks.append(renderShow(prevData.drinks[j], j));
     }
+    starCheck();
   } else {
     var tempObj = {};
     tempObj.strDrinkThumb = $pictureURL.value;
@@ -189,6 +192,8 @@ $form.addEventListener('submit', function (event) {
     for (var y = 0; y < prevData.drinks.length; y++) {
       $ulDrinks.append(renderShow(prevData.drinks[y], y));
     }
+
+    starCheck();
   }
 
   $form.reset();
@@ -210,6 +215,7 @@ $ulDrinks.addEventListener('click', function (event) {
     $cocktailName.value = prevData.drinks[data.editIndex].strDrink;
     $cocktailInstr.value = prevData.drinks[data.editIndex].strInstructions;
     $cocktailRecipe.value = prevData.drinks[data.editIndex].recipe;
+
     showList($divEdit);
   }
 
@@ -226,6 +232,8 @@ $ulDrinks.addEventListener('click', function (event) {
       $ulDrinks.append(renderShow(prevData.drinks[j], j));
     }
 
+    starCheck();
+
     if (prevData.drinks.length === 0) {
       $noCocktail.classList.remove('hidden');
     }
@@ -238,6 +246,8 @@ $ulDrinks.addEventListener('click', function (event) {
     var starPos = event.target.getAttribute('data-entry-id');
     var starSelector = "i[data-entry-id='" + starPos + "']";
     var starIndex = event.target.getAttribute('star-index');
+    prevData.drinks[starPos[4]].starIndex = starIndex;
+
     var $$stars = $$(starSelector);
     for (var z = 0; z < 5; z++) {
       if ($$stars[z].classList.contains('fas')) howManyChecked++;
@@ -297,6 +307,7 @@ window.addEventListener('DOMContentLoaded', function loadDom(event) {
     for (var i = 0; i < prevData.drinks.length; i++) {
       $ulDrinks.append(renderShow(prevData.drinks[i], i));
     }
+    starCheck();
   }
 });
 
@@ -326,6 +337,28 @@ function showList(target) {
       target.classList.remove('hidden');
     } else {
       div.classList.add('hidden');
+    }
+  }
+}
+
+function starCheck() {
+  for (var p = 0; p < prevData.drinks.length; p++) {
+    if (prevData.drinks[p].starIndex !== undefined) {
+      var colorCheck = 0;
+      var starSelector = "i[data-entry-id='" + 'star' + p + "']";
+      var starIndex = prevData.drinks[p].starIndex;
+      var $$stars = $$(starSelector);
+
+      for (var q = 0; q <= starIndex; q++) {
+        $$stars[q].classList.replace('far', 'fas');
+        colorCheck++;
+      }
+
+      var colors = ['red', 'orange', 'yellow', 'green', 'torq'];
+
+      for (var colorIndex = 0; colorIndex < colorCheck; colorIndex++) {
+        $$stars[colorIndex].classList.add(colors[colorIndex]);
+      }
     }
   }
 }
