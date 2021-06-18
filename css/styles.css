@@ -220,6 +220,16 @@ button {
   cursor: pointer;
 }
 
+.delete-container > button {
+  font-family: "Caveat Brush", cursive;
+  font-size: 1.4rem;
+  background-color: #caf0f8;
+  padding: 0.5rem 0;
+  margin-top: 0.5rem;
+  width: 40%;
+  transition: 0.3s background-color;
+}
+
 .tab-container > button {
   font-family: "Caveat Brush", cursive;
   font-size: 1.5rem;
@@ -228,6 +238,10 @@ button {
   margin-top: 0.5rem;
   width: 80%;
   transition: 0.3s background-color;
+}
+
+.delete-container > button:hover {
+  background-color: #48cae4;
 }
 
 .tab-container > button:hover {
@@ -285,19 +299,23 @@ label {
 }
 
 .main-page {
-  margin-top: 7rem;
+  position: relative;
+  top: 7rem;
 }
 
 form {
-  margin-top: 7rem;
+  position: relative;
+  top: 7rem;
 }
 
 .search-results {
-  margin-top: 7rem;
+  position: relative;
+  top: 7rem;
 }
 
 .my-cocktailz {
-  margin-top: 7rem;
+  position: relative;
+  top: 7rem;
 }
 
 .float-right {
@@ -334,5 +352,29 @@ form {
 }
 
 .torq {
-  color: #caf0f8;
+  color: #59e3ff;
+}
+
+.background {
+  position: fixed;
+  background-color: rgba(36, 36, 36, 0.8);
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+}
+
+.middle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.delete-container {
+  position: relative;
+  bottom: 7rem;
+  background-color: white;
+  border-radius: 5px;
+  width: 300px;
+  height: 140px;
 }

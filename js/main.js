@@ -8,6 +8,7 @@ var $$$ = document.createElement.bind(document);
 // global declartion & dom query
 var xhr;
 var $mainHeading = $('.main-heading');
+var $divModal = $('.background');
 var $divMain = $('.main-page');
 var $divTab = $('.tab-container');
 var $divSearchResults = $('.search-results');
@@ -33,6 +34,7 @@ var $searchButton = $('.fas.fa-glass-martini');
 var $backButtonOne = $('.back-one');
 var $backButtonTwo = $('.back-two');
 var $forwardButton = $('.fas.fa-arrow-alt-circle-right');
+var $closeButton = $('.close-button');
 var $notFound = $('.not-found');
 var $noCocktail = $('.no-cocktail');
 var $userLogo = $('.far.fa-user');
@@ -139,6 +141,10 @@ $addButton.addEventListener('click', function (event) {
   data.mainPage = false;
 });
 
+$closeButton.addEventListener('click', function (event) {
+  $divModal.classList.add('hidden');
+});
+
 // add drink to My Cocktailz feature
 $ulSearch.addEventListener('click', function (event) {
   if (event.target.getAttribute('data-entry-id') !== null) {
@@ -147,10 +153,7 @@ $ulSearch.addEventListener('click', function (event) {
 
     for (var x = 0; x < prevData.drinks.length; x++) {
       if (data.drinks[currentDrinkId].strDrink === prevData.drinks[x].strDrink) {
-        showList($divMyCocktailz);
-
-        // add modal "This drink was already added"
-
+        $divModal.classList.remove('hidden');
         return;
       }
     }
@@ -243,7 +246,6 @@ $ulDrinks.addEventListener('click', function (event) {
     for (var j = 0; j < prevData.drinks.length; j++) {
       $ulDrinks.append(renderShow(prevData.drinks[j], j));
     }
-
     starCheck();
 
     if (prevData.drinks.length === 0) {
@@ -271,6 +273,7 @@ $ulDrinks.addEventListener('click', function (event) {
           $$stars[x].classList.replace('far', 'fas');
           colorCheck++;
         }
+        prevData.drinks[starPos[4]].starActive = true;
         check = false;
       }
       if (check) {
@@ -278,6 +281,7 @@ $ulDrinks.addEventListener('click', function (event) {
           for (var y = 0; y <= starIndex; y++) {
             $$stars[y].className = 'far fa-star';
           }
+          prevData.drinks[starPos[4]].starActive = false;
         }
       }
     }
@@ -291,6 +295,7 @@ $ulDrinks.addEventListener('click', function (event) {
         $$stars[b].classList.replace('far', 'fas');
         colorCheck++;
       }
+      prevData.drinks[starPos[4]].starActive = true;
     }
 
     // give stars colors depending on how many
@@ -355,7 +360,7 @@ function showList(target) {
 
 function starCheck() {
   for (var p = 0; p < prevData.drinks.length; p++) {
-    if (prevData.drinks[p].starIndex !== undefined) {
+    if (prevData.drinks[p].starIndex !== undefined && prevData.drinks[p].starActive) {
       var colorCheck = 0;
       var starSelector = "i[data-entry-id='" + 'star' + p + "']";
       var starIndex = prevData.drinks[p].starIndex;
