@@ -312,6 +312,11 @@ form {
   color: red;
 }
 
+.no-cocktail {
+  color: red;
+  margin-left: 3rem;
+}
+
 .red {
   color: red;
 }

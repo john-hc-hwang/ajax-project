@@ -34,6 +34,7 @@ var $backButtonOne = $('.back-one');
 var $backButtonTwo = $('.back-two');
 var $forwardButton = $('.fas.fa-arrow-alt-circle-right');
 var $notFound = $('.not-found');
+var $noCocktail = $('.no-cocktail');
 var $userLogo = $('.far.fa-user');
 var $userInput = $('.user-input');
 var $ulSearch = $('.ul-search');
@@ -53,36 +54,61 @@ $tab.addEventListener('click', function (event) {
 
 $homeTab.addEventListener('click', function (event) {
   showList($divMain);
+  data.mainPage = true;
 });
 
 $searchTab.addEventListener('click', function (event) {
   showList($divSearchResults);
+  data.mainPage = false;
 });
 
 $myTab.addEventListener('click', function (event) {
   showList($divMyCocktailz);
+  data.mainPage = false;
 });
 
 $mainHeading.addEventListener('click', function (event) {
   showList($divMain);
   data.editIndex = null;
+  data.mainPage = true;
 });
 
 $userLogo.addEventListener('click', function (event) {
   showList($divMyCocktailz);
   data.editIndex = null;
+  data.mainPage = false;
 });
 
 $backButtonOne.addEventListener('click', function (event) {
   showList($divMain);
+  data.mainPage = true;
 });
 
 $backButtonTwo.addEventListener('click', function (event) {
   showList($divSearchResults);
+  data.mainPage = false;
 });
 
 $forwardButton.addEventListener('click', function (event) {
   showList($divMyCocktailz);
+  data.mainPage = false;
+});
+
+// allows users to search by pressing enter on mainPage
+window.addEventListener('keydown', function (event) {
+  if (event.key === 'Enter' && data.mainPage) {
+    $notFound.classList.add('hidden'); // prevents user from seeing not found message
+    if (data.drinks !== null) {
+      for (var i = 0; i < data.drinks.length; i++) {
+        var firstChild = $ulSearch.firstElementChild;
+        $ulSearch.removeChild(firstChild);
+      }
+    }
+    getData($userInput.value); // gets data and sets data.drinks to api response
+    $userInput.value = '';
+    showList($divSearchResults);
+    data.mainPage = false;
+  }
 });
 
 // remove prev search results and show new results
@@ -97,6 +123,7 @@ $searchButton.addEventListener('click', function (event) {
   getData($userInput.value); // gets data and sets data.drinks to api response
   $userInput.value = '';
   showList($divSearchResults);
+  data.mainPage = false;
 });
 
 // allows user to add a new cocktail
@@ -109,11 +136,13 @@ $addButton.addEventListener('click', function (event) {
     $actionButton.textContent = 'Add';
     showList($divEdit);
   }
+  data.mainPage = false;
 });
 
 // add drink to My Cocktailz feature
 $ulSearch.addEventListener('click', function (event) {
   if (event.target.getAttribute('data-entry-id') !== null) {
+    $noCocktail.classList.add('hidden');
     for (var i = 0; i < prevData.drinks.length; i++) {
       var firstChild = $ulDrinks.firstElementChild;
       $ulDrinks.removeChild(firstChild);
@@ -174,7 +203,7 @@ $ulDrinks.addEventListener('click', function (event) {
   if (event.target.getAttribute('data-entry-id') !== null && event.target.getAttribute('data-entry-id').slice(0, 4) === 'edit') {
     data.editIndex = Number(event.target.getAttribute('data-entry-id').slice(4));
     $actionHeading.textContent = 'Edit Cocktail';
-    $actionButton.textContent = 'Edit';
+    $actionButton.textContent = 'Save Changes';
     $imagePrev.setAttribute('src', prevData.drinks[data.editIndex].strDrinkThumb);
     $imagePrev.setAttribute('alt', prevData.drinks[data.editIndex].strDrink);
     $pictureURL.value = prevData.drinks[data.editIndex].strDrinkThumb;
@@ -195,6 +224,10 @@ $ulDrinks.addEventListener('click', function (event) {
 
     for (var j = 0; j < prevData.drinks.length; j++) {
       $ulDrinks.append(renderShow(prevData.drinks[j], j));
+    }
+
+    if (prevData.drinks.length === 0) {
+      $noCocktail.classList.remove('hidden');
     }
   }
 
@@ -257,8 +290,13 @@ $pictureURL.addEventListener('input', function (event) {
 
 // on refresh fill My Cocktailz with prevData
 window.addEventListener('DOMContentLoaded', function loadDom(event) {
-  for (var i = 0; i < prevData.drinks.length; i++) {
-    $ulDrinks.append(renderShow(prevData.drinks[i], i));
+  if (prevData.drinks.length === 0) {
+    $noCocktail.classList.remove('hidden');
+  } else {
+    $noCocktail.classList.add('hidden');
+    for (var i = 0; i < prevData.drinks.length; i++) {
+      $ulDrinks.append(renderShow(prevData.drinks[i], i));
+    }
   }
 });
 
