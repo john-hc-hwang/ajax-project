@@ -4,7 +4,8 @@
 var data = {
   drinks: [],
   editIndex: null,
-  deleteIndex: null
+  deleteIndex: null,
+  mainPage: true
 };
 
 var prevData = {

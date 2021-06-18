@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cocktailz</title>
-  <link rel="icon" href="images/favicon.ico">
+  <link rel="icon" href="images/cocktail.ico">
   <script src="https://kit.fontawesome.com/d1d6685d3b.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/layout.css">
@@ -13,6 +13,14 @@
   <link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
+  <div class="background hidden">
+    <div class="middle">
+      <div class="delete-container flex flex-column align-center">
+          <p class="text-center">This cocktail is already added</p>
+          <button class="close-button">CLOSE</button>
+      </div>
+    </div>
+  </div>
   <header class="navbar">
     <div class="row">
       <i class="fas fa-align-justify"></i>
@@ -73,13 +81,14 @@
       <i class="back-one fas fa-arrow-alt-circle-left float-left"></i>
       <i class="fas fa-arrow-alt-circle-right float-right"></i>
       <h2 class="sub-heading text-center">Search Results</h2>
-      <h2 class="not-found sub-heading text-center hidden">No cocktail found</h2>
+      <h2 class="not-found sub-heading text-center">No cocktail found</h2>
       <ul class="ul-search">
       </ul>
     </div>
     <div class="my-cocktailz container hidden">
       <i class="back-two fas fa-arrow-alt-circle-left float-left"></i>
       <h2 class="sub-heading text-center">My Cocktailz</h2>
+      <h2 class="no-cocktail sub-heading text-center">No cocktail added yet</h2>
       <ul class="ul-drinks">
       </ul>
     </div>

@@ -8,6 +8,7 @@ var $$$ = document.createElement.bind(document);
 // global declartion & dom query
 var xhr;
 var $mainHeading = $('.main-heading');
+var $divModal = $('.background');
 var $divMain = $('.main-page');
 var $divTab = $('.tab-container');
 var $divSearchResults = $('.search-results');
@@ -33,7 +34,9 @@ var $searchButton = $('.fas.fa-glass-martini');
 var $backButtonOne = $('.back-one');
 var $backButtonTwo = $('.back-two');
 var $forwardButton = $('.fas.fa-arrow-alt-circle-right');
+var $closeButton = $('.close-button');
 var $notFound = $('.not-found');
+var $noCocktail = $('.no-cocktail');
 var $userLogo = $('.far.fa-user');
 var $userInput = $('.user-input');
 var $ulSearch = $('.ul-search');
@@ -53,36 +56,61 @@ $tab.addEventListener('click', function (event) {
 
 $homeTab.addEventListener('click', function (event) {
   showList($divMain);
+  data.mainPage = true;
 });
 
 $searchTab.addEventListener('click', function (event) {
   showList($divSearchResults);
+  data.mainPage = false;
 });
 
 $myTab.addEventListener('click', function (event) {
   showList($divMyCocktailz);
+  data.mainPage = false;
 });
 
 $mainHeading.addEventListener('click', function (event) {
   showList($divMain);
   data.editIndex = null;
+  data.mainPage = true;
 });
 
 $userLogo.addEventListener('click', function (event) {
   showList($divMyCocktailz);
   data.editIndex = null;
+  data.mainPage = false;
 });
 
 $backButtonOne.addEventListener('click', function (event) {
   showList($divMain);
+  data.mainPage = true;
 });
 
 $backButtonTwo.addEventListener('click', function (event) {
   showList($divSearchResults);
+  data.mainPage = false;
 });
 
 $forwardButton.addEventListener('click', function (event) {
   showList($divMyCocktailz);
+  data.mainPage = false;
+});
+
+// allows users to search by pressing enter on mainPage
+window.addEventListener('keydown', function (event) {
+  if (event.key === 'Enter' && data.mainPage) {
+    $notFound.classList.add('hidden'); // prevents user from seeing not found message
+    if (data.drinks !== null) {
+      for (var i = 0; i < data.drinks.length; i++) {
+        var firstChild = $ulSearch.firstElementChild;
+        $ulSearch.removeChild(firstChild);
+      }
+    }
+    getData($userInput.value); // gets data and sets data.drinks to api response
+    $userInput.value = '';
+    showList($divSearchResults);
+    data.mainPage = false;
+  }
 });
 
 // remove prev search results and show new results
@@ -97,6 +125,7 @@ $searchButton.addEventListener('click', function (event) {
   getData($userInput.value); // gets data and sets data.drinks to api response
   $userInput.value = '';
   showList($divSearchResults);
+  data.mainPage = false;
 });
 
 // allows user to add a new cocktail
@@ -109,20 +138,37 @@ $addButton.addEventListener('click', function (event) {
     $actionButton.textContent = 'Add';
     showList($divEdit);
   }
+  data.mainPage = false;
+});
+
+$closeButton.addEventListener('click', function (event) {
+  $divModal.classList.add('hidden');
 });
 
 // add drink to My Cocktailz feature
 $ulSearch.addEventListener('click', function (event) {
   if (event.target.getAttribute('data-entry-id') !== null) {
+    $noCocktail.classList.add('hidden');
+    var currentDrinkId = event.target.getAttribute('data-entry-id');
+
+    for (var x = 0; x < prevData.drinks.length; x++) {
+      if (data.drinks[currentDrinkId].strDrink === prevData.drinks[x].strDrink) {
+        $divModal.classList.remove('hidden');
+        return;
+      }
+    }
+
     for (var i = 0; i < prevData.drinks.length; i++) {
       var firstChild = $ulDrinks.firstElementChild;
       $ulDrinks.removeChild(firstChild);
     }
-    var currentDrinkId = event.target.getAttribute('data-entry-id');
+
     prevData.drinks.unshift(data.drinks[currentDrinkId]); // unshift adds a drink to existing prevData object
     for (var j = 0; j < prevData.drinks.length; j++) {
       $ulDrinks.append(renderShow(prevData.drinks[j], j));
     }
+    starCheck();
+
     showList($divMyCocktailz);
   }
 });
@@ -144,6 +190,7 @@ $form.addEventListener('submit', function (event) {
     for (var j = 0; j < prevData.drinks.length; j++) {
       $ulDrinks.append(renderShow(prevData.drinks[j], j));
     }
+    starCheck();
   } else {
     var tempObj = {};
     tempObj.strDrinkThumb = $pictureURL.value;
@@ -160,6 +207,8 @@ $form.addEventListener('submit', function (event) {
     for (var y = 0; y < prevData.drinks.length; y++) {
       $ulDrinks.append(renderShow(prevData.drinks[y], y));
     }
+
+    starCheck();
   }
 
   $form.reset();
@@ -174,13 +223,14 @@ $ulDrinks.addEventListener('click', function (event) {
   if (event.target.getAttribute('data-entry-id') !== null && event.target.getAttribute('data-entry-id').slice(0, 4) === 'edit') {
     data.editIndex = Number(event.target.getAttribute('data-entry-id').slice(4));
     $actionHeading.textContent = 'Edit Cocktail';
-    $actionButton.textContent = 'Edit';
+    $actionButton.textContent = 'Save Changes';
     $imagePrev.setAttribute('src', prevData.drinks[data.editIndex].strDrinkThumb);
     $imagePrev.setAttribute('alt', prevData.drinks[data.editIndex].strDrink);
     $pictureURL.value = prevData.drinks[data.editIndex].strDrinkThumb;
     $cocktailName.value = prevData.drinks[data.editIndex].strDrink;
     $cocktailInstr.value = prevData.drinks[data.editIndex].strInstructions;
     $cocktailRecipe.value = prevData.drinks[data.editIndex].recipe;
+
     showList($divEdit);
   }
 
@@ -196,6 +246,11 @@ $ulDrinks.addEventListener('click', function (event) {
     for (var j = 0; j < prevData.drinks.length; j++) {
       $ulDrinks.append(renderShow(prevData.drinks[j], j));
     }
+    starCheck();
+
+    if (prevData.drinks.length === 0) {
+      $noCocktail.classList.remove('hidden');
+    }
   }
 
   if (event.target.getAttribute('data-entry-id') !== null && event.target.getAttribute('data-entry-id').slice(0, 4) === 'star') {
@@ -205,6 +260,8 @@ $ulDrinks.addEventListener('click', function (event) {
     var starPos = event.target.getAttribute('data-entry-id');
     var starSelector = "i[data-entry-id='" + starPos + "']";
     var starIndex = event.target.getAttribute('star-index');
+    prevData.drinks[starPos[4]].starIndex = starIndex;
+
     var $$stars = $$(starSelector);
     for (var z = 0; z < 5; z++) {
       if ($$stars[z].classList.contains('fas')) howManyChecked++;
@@ -216,6 +273,7 @@ $ulDrinks.addEventListener('click', function (event) {
           $$stars[x].classList.replace('far', 'fas');
           colorCheck++;
         }
+        prevData.drinks[starPos[4]].starActive = true;
         check = false;
       }
       if (check) {
@@ -223,6 +281,7 @@ $ulDrinks.addEventListener('click', function (event) {
           for (var y = 0; y <= starIndex; y++) {
             $$stars[y].className = 'far fa-star';
           }
+          prevData.drinks[starPos[4]].starActive = false;
         }
       }
     }
@@ -236,6 +295,7 @@ $ulDrinks.addEventListener('click', function (event) {
         $$stars[b].classList.replace('far', 'fas');
         colorCheck++;
       }
+      prevData.drinks[starPos[4]].starActive = true;
     }
 
     // give stars colors depending on how many
@@ -257,8 +317,14 @@ $pictureURL.addEventListener('input', function (event) {
 
 // on refresh fill My Cocktailz with prevData
 window.addEventListener('DOMContentLoaded', function loadDom(event) {
-  for (var i = 0; i < prevData.drinks.length; i++) {
-    $ulDrinks.append(renderShow(prevData.drinks[i], i));
+  if (prevData.drinks.length === 0) {
+    $noCocktail.classList.remove('hidden');
+  } else {
+    $noCocktail.classList.add('hidden');
+    for (var i = 0; i < prevData.drinks.length; i++) {
+      $ulDrinks.append(renderShow(prevData.drinks[i], i));
+    }
+    starCheck();
   }
 });
 
@@ -288,6 +354,28 @@ function showList(target) {
       target.classList.remove('hidden');
     } else {
       div.classList.add('hidden');
+    }
+  }
+}
+
+function starCheck() {
+  for (var p = 0; p < prevData.drinks.length; p++) {
+    if (prevData.drinks[p].starIndex !== undefined && prevData.drinks[p].starActive) {
+      var colorCheck = 0;
+      var starSelector = "i[data-entry-id='" + 'star' + p + "']";
+      var starIndex = prevData.drinks[p].starIndex;
+      var $$stars = $$(starSelector);
+
+      for (var q = 0; q <= starIndex; q++) {
+        $$stars[q].classList.replace('far', 'fas');
+        colorCheck++;
+      }
+
+      var colors = ['red', 'orange', 'yellow', 'green', 'torq'];
+
+      for (var colorIndex = 0; colorIndex < colorCheck; colorIndex++) {
+        $$stars[colorIndex].classList.add(colors[colorIndex]);
+      }
     }
   }
 }
