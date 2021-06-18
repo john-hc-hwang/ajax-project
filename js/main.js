@@ -143,11 +143,23 @@ $addButton.addEventListener('click', function (event) {
 $ulSearch.addEventListener('click', function (event) {
   if (event.target.getAttribute('data-entry-id') !== null) {
     $noCocktail.classList.add('hidden');
+    var currentDrinkId = event.target.getAttribute('data-entry-id');
+
+    for (var x = 0; x < prevData.drinks.length; x++) {
+      if (data.drinks[currentDrinkId].strDrink === prevData.drinks[x].strDrink) {
+        showList($divMyCocktailz);
+
+        // add modal "This drink was already added"
+
+        return;
+      }
+    }
+
     for (var i = 0; i < prevData.drinks.length; i++) {
       var firstChild = $ulDrinks.firstElementChild;
       $ulDrinks.removeChild(firstChild);
     }
-    var currentDrinkId = event.target.getAttribute('data-entry-id');
+
     prevData.drinks.unshift(data.drinks[currentDrinkId]); // unshift adds a drink to existing prevData object
     for (var j = 0; j < prevData.drinks.length; j++) {
       $ulDrinks.append(renderShow(prevData.drinks[j], j));
