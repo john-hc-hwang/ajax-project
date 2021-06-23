@@ -220,7 +220,7 @@ $form.addEventListener('submit', event => {
 });
 
 // Edit, Delete, Rate drinks in My Cocktailz
-$ulDrinks.addEventListener('click', function (event) {
+$ulDrinks.addEventListener('click', event => {
   if (event.target.getAttribute('data-entry-id') !== null && event.target.getAttribute('data-entry-id').slice(0, 4) === 'edit') {
     data.editIndex = Number(event.target.getAttribute('data-entry-id').slice(4));
     $actionHeading.textContent = 'Edit Cocktail';
@@ -239,12 +239,12 @@ $ulDrinks.addEventListener('click', function (event) {
     data.deleteIndex = Number(event.target.getAttribute('data-entry-id').slice(6));
     prevData.drinks.splice(data.deleteIndex, 1);
 
-    for (var i = 0; i < prevData.drinks.length + 1; i++) {
-      var firstChild = $ulDrinks.firstElementChild;
+    for (let i = 0; i < prevData.drinks.length + 1; i++) {
+      const firstChild = $ulDrinks.firstElementChild;
       $ulDrinks.removeChild(firstChild);
     }
 
-    for (var j = 0; j < prevData.drinks.length; j++) {
+    for (let j = 0; j < prevData.drinks.length; j++) {
       $ulDrinks.append(renderShow(prevData.drinks[j], j));
     }
     starCheck();
@@ -255,22 +255,22 @@ $ulDrinks.addEventListener('click', function (event) {
   }
 
   if (event.target.getAttribute('data-entry-id') !== null && event.target.getAttribute('data-entry-id').slice(0, 4) === 'star') {
-    var check = true;
-    var howManyChecked = 0;
-    var colorCheck = 0;
-    var starPos = event.target.getAttribute('data-entry-id');
-    var starSelector = "i[data-entry-id='" + starPos + "']";
-    var starIndex = event.target.getAttribute('star-index');
+    let check = true;
+    let howManyChecked = 0;
+    let colorCheck = 0;
+    const starPos = event.target.getAttribute('data-entry-id');
+    const starSelector = "i[data-entry-id='" + starPos + "']";
+    const starIndex = event.target.getAttribute('star-index');
     prevData.drinks[starPos[4]].starIndex = starIndex;
 
-    var $$stars = $$(starSelector);
-    for (var z = 0; z < 5; z++) {
+    const $$stars = $$(starSelector);
+    for (let z = 0; z < 5; z++) {
       if ($$stars[z].classList.contains('fas')) howManyChecked++;
     }
 
-    for (var k = 0; k < 5; k++) {
+    for (let k = 0; k < 5; k++) {
       if ($$stars[k].getAttribute('star-index') === starIndex && $$stars[starIndex].classList.contains('far')) {
-        for (var x = 0; x <= starIndex; x++) {
+        for (let x = 0; x <= starIndex; x++) {
           $$stars[x].classList.replace('far', 'fas');
           colorCheck++;
         }
@@ -279,7 +279,7 @@ $ulDrinks.addEventListener('click', function (event) {
       }
       if (check) {
         if ($$stars[k].getAttribute('star-index') === starIndex && $$stars[starIndex].classList.contains('fas')) {
-          for (var y = 0; y <= starIndex; y++) {
+          for (let y = 0; y <= starIndex; y++) {
             $$stars[y].className = 'far fa-star';
           }
           prevData.drinks[starPos[4]].starActive = false;
@@ -288,11 +288,11 @@ $ulDrinks.addEventListener('click', function (event) {
     }
     // final check to appropriately rates star for UX
     if (Number(starIndex) + 1 < howManyChecked) {
-      for (var a = 0; a < 5; a++) {
+      for (let a = 0; a < 5; a++) {
         $$stars[a].className = 'far fa-star';
       }
 
-      for (var b = 0; b <= starIndex; b++) {
+      for (let b = 0; b <= starIndex; b++) {
         $$stars[b].classList.replace('far', 'fas');
         colorCheck++;
       }
@@ -300,16 +300,16 @@ $ulDrinks.addEventListener('click', function (event) {
     }
 
     // give stars colors depending on how many
-    var colors = ['red', 'orange', 'yellow', 'green', 'torq'];
+    const colors = ['red', 'orange', 'yellow', 'green', 'torq'];
 
-    for (var colorIndex = 0; colorIndex < colorCheck; colorIndex++) {
+    for (let colorIndex = 0; colorIndex < colorCheck; colorIndex++) {
       $$stars[colorIndex].classList.add(colors[colorIndex]);
     }
   }
 });
 
 // allows users to see the preview of the image
-$pictureURL.addEventListener('input', function (event) {
+$pictureURL.addEventListener('input', event => {
   $imagePrev.setAttribute('src', event.target.value);
   if (event.target.value === '') {
     $imagePrev.setAttribute('src', 'images/placeholder-image-square.jpg');
@@ -317,12 +317,12 @@ $pictureURL.addEventListener('input', function (event) {
 });
 
 // on refresh fill My Cocktailz with prevData
-window.addEventListener('DOMContentLoaded', function loadDom(event) {
+window.addEventListener('DOMContentLoaded', event => {
   if (prevData.drinks.length === 0) {
     $noCocktail.classList.remove('hidden');
   } else {
     $noCocktail.classList.add('hidden');
-    for (var i = 0; i < prevData.drinks.length; i++) {
+    for (let i = 0; i < prevData.drinks.length; i++) {
       $ulDrinks.append(renderShow(prevData.drinks[i], i));
     }
     starCheck();
@@ -330,56 +330,56 @@ window.addEventListener('DOMContentLoaded', function loadDom(event) {
 });
 
 // function definitions
-function getData(name) {
+const getData = name => {
   xhr = new XMLHttpRequest();
   xhr.open('GET', 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=' + name);
   xhr.responseType = 'json';
   xhr.send();
-  xhr.addEventListener('load', function () {
+  xhr.addEventListener('load', () => {
     data.drinks = xhr.response.drinks;
     if (data.drinks !== null) {
       $notFound.classList.add('hidden');
-      for (var i = 0; i < data.drinks.length; i++) {
+      for (let i = 0; i < data.drinks.length; i++) {
         $ulSearch.append(renderSearch(data.drinks[i], i));
       }
     } else {
       $notFound.classList.remove('hidden');
     }
   });
-}
+};
 
 // show and hide targeted divs appropriately
-function showList(target) {
-  for (var div of showLists) {
+const showList = target => {
+  for (const div of showLists) {
     if (div === target) {
       target.classList.remove('hidden');
     } else {
       div.classList.add('hidden');
     }
   }
-}
+};
 
-function starCheck() {
-  for (var p = 0; p < prevData.drinks.length; p++) {
+const starCheck = () => {
+  for (let p = 0; p < prevData.drinks.length; p++) {
     if (prevData.drinks[p].starIndex !== undefined && prevData.drinks[p].starActive) {
-      var colorCheck = 0;
-      var starSelector = "i[data-entry-id='" + 'star' + p + "']";
-      var starIndex = prevData.drinks[p].starIndex;
-      var $$stars = $$(starSelector);
+      let colorCheck = 0;
+      const starSelector = "i[data-entry-id='" + 'star' + p + "']";
+      const starIndex = prevData.drinks[p].starIndex;
+      const $$stars = $$(starSelector);
 
-      for (var q = 0; q <= starIndex; q++) {
+      for (let q = 0; q <= starIndex; q++) {
         $$stars[q].classList.replace('far', 'fas');
         colorCheck++;
       }
 
-      var colors = ['red', 'orange', 'yellow', 'green', 'torq'];
+      const colors = ['red', 'orange', 'yellow', 'green', 'torq'];
 
-      for (var colorIndex = 0; colorIndex < colorCheck; colorIndex++) {
+      for (let colorIndex = 0; colorIndex < colorCheck; colorIndex++) {
         $$stars[colorIndex].classList.add(colors[colorIndex]);
       }
     }
   }
-}
+};
 
 /* <div class="mediaview">
   <div class="column-half">
@@ -396,44 +396,44 @@ function starCheck() {
 </div> */
 
 // return DOM for search results
-function renderSearch(data, id) {
-  var $divMediaview = $$$('div');
+const renderSearch = (data, id) => {
+  const $divMediaview = $$$('div');
   $divMediaview.className = 'mediaview';
 
-  var $divColHalf = $$$('div');
+  const $divColHalf = $$$('div');
   $divColHalf.className = 'column-half';
   $divMediaview.appendChild($divColHalf);
 
-  var $image = $$$('img');
+  const $image = $$$('img');
   $image.setAttribute('src', data.strDrinkThumb);
   $image.setAttribute('alt', data.strDrink);
   $divColHalf.appendChild($image);
 
-  var $divColHalf2 = $$$('div');
+  const $divColHalf2 = $$$('div');
   $divColHalf2.className = 'column-half';
   $divMediaview.appendChild($divColHalf2);
 
-  var $div = $$$('div');
+  const $div = $$$('div');
   $divColHalf2.appendChild($div);
 
-  var $button = $$$('i');
+  const $button = $$$('i');
   $button.className = 'fas fa-plus-circle float-right';
   $button.setAttribute('data-entry-id', id);
   $div.appendChild($button);
 
-  var $h1 = $$$('h1');
+  const $h1 = $$$('h1');
   $h1.textContent = data.strDrink;
   $div.appendChild($h1);
 
-  var $description = $$$('p');
+  const $description = $$$('p');
   $description.textContent = data.strInstructions;
   $div.appendChild($description);
 
-  var $recipe = $$$('p');
-  var tempString = '';
-  for (var i = 1; i <= 15; i++) {
-    var ingredients = 'strIngredient' + i;
-    var measure = 'strMeasure' + i;
+  const $recipe = $$$('p');
+  let tempString = '';
+  for (let i = 1; i <= 15; i++) {
+    const ingredients = 'strIngredient' + i;
+    const measure = 'strMeasure' + i;
     if (data[ingredients] !== null && data[measure] !== null) {
       tempString += data[ingredients] + ' ' + data[measure] + ' & ';
     }
@@ -443,7 +443,7 @@ function renderSearch(data, id) {
   $divColHalf2.appendChild($recipe);
 
   return $divMediaview;
-}
+};
 
 /* <div class="mediaview">
   <div class="column-half">
@@ -466,57 +466,57 @@ function renderSearch(data, id) {
 </div> */
 
 // return DOM for cocktails added from search results
-function renderShow(data, id) {
-  var $divMediaview = $$$('div');
+const renderShow = (data, id) => {
+  const $divMediaview = $$$('div');
   $divMediaview.className = 'mediaview';
 
-  var $divColHalf = $$$('div');
+  const $divColHalf = $$$('div');
   $divColHalf.className = 'column-half';
   $divMediaview.appendChild($divColHalf);
 
-  var $image = $$$('img');
+  const $image = $$$('img');
   $image.setAttribute('src', data.strDrinkThumb);
   $image.setAttribute('alt', data.strDrink);
   $divColHalf.appendChild($image);
 
-  var $divColHalf2 = $$$('div');
+  const $divColHalf2 = $$$('div');
   $divColHalf2.className = 'column-half';
   $divMediaview.appendChild($divColHalf2);
 
-  var $div = $$$('div');
+  const $div = $$$('div');
   $divColHalf2.appendChild($div);
 
-  var $minusButton = $$$('i');
+  const $minusButton = $$$('i');
   $minusButton.className = 'fas fa-minus-circle float-right';
   $minusButton.setAttribute('data-entry-id', 'delete' + id);
   $div.appendChild($minusButton);
 
-  var $editButton = $$$('i');
+  const $editButton = $$$('i');
   $editButton.className = 'fas fa-pen float-right';
   $editButton.setAttribute('data-entry-id', 'edit' + id);
   $div.appendChild($editButton);
 
-  var $h1 = $$$('h1');
+  const $h1 = $$$('h1');
   $h1.textContent = data.strDrink;
   $div.appendChild($h1);
 
-  for (var k = 0; k < 5; k++) {
-    var $starButton = $$$('i');
+  for (let k = 0; k < 5; k++) {
+    const $starButton = $$$('i');
     $starButton.className = 'far fa-star';
     $starButton.setAttribute('data-entry-id', 'star' + id);
     $starButton.setAttribute('star-index', k);
     $div.appendChild($starButton);
   }
 
-  var $description = $$$('p');
+  const $description = $$$('p');
   $description.textContent = data.strInstructions;
   $div.appendChild($description);
 
-  var $recipe = $$$('p');
-  var tempString = '';
-  for (var i = 1; i <= 15; i++) {
-    var ingredients = 'strIngredient' + i;
-    var measure = 'strMeasure' + i;
+  const $recipe = $$$('p');
+  let tempString = '';
+  for (let i = 1; i <= 15; i++) {
+    const ingredients = 'strIngredient' + i;
+    const measure = 'strMeasure' + i;
     if (data[ingredients] !== null && data[measure] !== null && data[ingredients] !== undefined && data[measure] !== undefined) {
       tempString += data[ingredients] + ' ' + data[measure] + ' & ';
     }
@@ -531,4 +531,4 @@ function renderShow(data, id) {
   $divColHalf2.appendChild($recipe);
 
   return $divMediaview;
-}
+};
