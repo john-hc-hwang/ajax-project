@@ -45,7 +45,7 @@ const $ulDrinks = $('.ul-drinks');
 
 const showLists = [$divMain, $divTab, $divEdit, $divMyCocktailz, $divSearchResults];
 
-// Event Listeners
+// Event Listeners below
 // open/close tab when clicked
 $tab.addEventListener('click', event => {
   if ($divTab.classList.contains('hidden')) {
