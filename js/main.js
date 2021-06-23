@@ -1,52 +1,53 @@
 /* global data */
 /* global prevData */
 
-var $ = document.querySelector.bind(document);
-var $$ = document.querySelectorAll.bind(document);
-var $$$ = document.createElement.bind(document);
+const $ = document.querySelector.bind(document);
+const $$ = document.querySelectorAll.bind(document);
+const $$$ = document.createElement.bind(document);
 
 // global declartion & dom query
-var xhr;
-var $mainHeading = $('.main-heading');
-var $divModal = $('.background');
-var $divMain = $('.main-page');
-var $divTab = $('.tab-container');
-var $divSearchResults = $('.search-results');
-var $divMyCocktailz = $('.my-cocktailz');
+let xhr;
 
-var $form = document.forms[0];
-var $divEdit = $('.edit');
-var $actionHeading = $('.action-heading');
-var $imagePrev = $('.image-prev');
-var $pictureURL = $('#picture-url');
-var $cocktailName = $('#cocktail-name');
-var $cocktailInstr = $('#cocktail-instr');
-var $cocktailRecipe = $('#cocktail-recipe');
-var $actionButton = $('.action-button');
+const $mainHeading = $('.main-heading');
+const $divModal = $('.background');
+const $divMain = $('.main-page');
+const $divTab = $('.tab-container');
+const $divSearchResults = $('.search-results');
+const $divMyCocktailz = $('.my-cocktailz');
 
-var $tab = $('.fas.fa-align-justify');
-var $searchTab = $('.search-tab');
-var $myTab = $('.my-tab');
-var $homeTab = $('.home-tab');
+const $form = document.forms[0];
+const $divEdit = $('.edit');
+const $actionHeading = $('.action-heading');
+const $imagePrev = $('.image-prev');
+const $pictureURL = $('#picture-url');
+const $cocktailName = $('#cocktail-name');
+const $cocktailInstr = $('#cocktail-instr');
+const $cocktailRecipe = $('#cocktail-recipe');
+const $actionButton = $('.action-button');
 
-var $addButton = $('.add-button');
-var $searchButton = $('.fas.fa-glass-martini');
-var $backButtonOne = $('.back-one');
-var $backButtonTwo = $('.back-two');
-var $forwardButton = $('.fas.fa-arrow-alt-circle-right');
-var $closeButton = $('.close-button');
-var $notFound = $('.not-found');
-var $noCocktail = $('.no-cocktail');
-var $userLogo = $('.far.fa-user');
-var $userInput = $('.user-input');
-var $ulSearch = $('.ul-search');
-var $ulDrinks = $('.ul-drinks');
+const $tab = $('.fas.fa-align-justify');
+const $searchTab = $('.search-tab');
+const $myTab = $('.my-tab');
+const $homeTab = $('.home-tab');
 
-var showLists = [$divMain, $divTab, $divEdit, $divMyCocktailz, $divSearchResults];
+const $addButton = $('.add-button');
+const $searchButton = $('.fas.fa-glass-martini');
+const $backButtonOne = $('.back-one');
+const $backButtonTwo = $('.back-two');
+const $forwardButton = $('.fas.fa-arrow-alt-circle-right');
+const $closeButton = $('.close-button');
+const $notFound = $('.not-found');
+const $noCocktail = $('.no-cocktail');
+const $userLogo = $('.far.fa-user');
+const $userInput = $('.user-input');
+const $ulSearch = $('.ul-search');
+const $ulDrinks = $('.ul-drinks');
+
+const showLists = [$divMain, $divTab, $divEdit, $divMyCocktailz, $divSearchResults];
 
 // Event Listeners
-// open tab when clicked
-$tab.addEventListener('click', function (event) {
+// open/close tab when clicked
+$tab.addEventListener('click', event => {
   if ($divTab.classList.contains('hidden')) {
     $divTab.classList.remove('hidden');
   } else {
@@ -54,71 +55,71 @@ $tab.addEventListener('click', function (event) {
   }
 });
 
-$homeTab.addEventListener('click', function (event) {
+$homeTab.addEventListener('click', event => {
   showList($divMain);
   data.mainPage = true;
 });
 
-$searchTab.addEventListener('click', function (event) {
+$searchTab.addEventListener('click', event => {
   showList($divSearchResults);
   data.mainPage = false;
 });
 
-$myTab.addEventListener('click', function (event) {
+$myTab.addEventListener('click', event => {
   showList($divMyCocktailz);
   data.mainPage = false;
 });
 
-$mainHeading.addEventListener('click', function (event) {
+$mainHeading.addEventListener('click', event => {
   showList($divMain);
   data.editIndex = null;
   data.mainPage = true;
 });
 
-$userLogo.addEventListener('click', function (event) {
+$userLogo.addEventListener('click', event => {
   showList($divMyCocktailz);
   data.editIndex = null;
   data.mainPage = false;
 });
 
-$backButtonOne.addEventListener('click', function (event) {
+$backButtonOne.addEventListener('click', event => {
   showList($divMain);
   data.mainPage = true;
 });
 
-$backButtonTwo.addEventListener('click', function (event) {
+$backButtonTwo.addEventListener('click', event => {
   showList($divSearchResults);
   data.mainPage = false;
 });
 
-$forwardButton.addEventListener('click', function (event) {
+$forwardButton.addEventListener('click', event => {
   showList($divMyCocktailz);
   data.mainPage = false;
 });
 
 // allows users to search by pressing enter on mainPage
-window.addEventListener('keydown', function (event) {
+window.addEventListener('keydown', event => {
   if (event.key === 'Enter' && data.mainPage) {
     $notFound.classList.add('hidden'); // prevents user from seeing not found message
     if (data.drinks !== null) {
-      for (var i = 0; i < data.drinks.length; i++) {
-        var firstChild = $ulSearch.firstElementChild;
+      for (let i = 0; i < data.drinks.length; i++) {
+        const firstChild = $ulSearch.firstElementChild;
         $ulSearch.removeChild(firstChild);
       }
     }
     getData($userInput.value); // gets data and sets data.drinks to api response
-    $userInput.value = '';
-    showList($divSearchResults);
-    data.mainPage = false;
+    $userInput.value = ''; // resets user input
+    showList($divSearchResults); // shows appropriate div block
+    data.mainPage = false; // changes the state of data.mainPage
   }
 });
 
 // remove prev search results and show new results
-$searchButton.addEventListener('click', function (event) {
+$searchButton.addEventListener('click', event => {
   $notFound.classList.add('hidden'); // prevents user from seeing not found message
   if (data.drinks !== null) {
-    for (var i = 0; i < data.drinks.length; i++) {
-      var firstChild = $ulSearch.firstElementChild;
+    for (let i = 0; i < data.drinks.length; i++) {
+      const firstChild = $ulSearch.firstElementChild;
       $ulSearch.removeChild(firstChild);
     }
   }
@@ -129,7 +130,7 @@ $searchButton.addEventListener('click', function (event) {
 });
 
 // allows user to add a new cocktail
-$addButton.addEventListener('click', function (event) {
+$addButton.addEventListener('click', event => {
   if (data.editIndex === null) {
     $form.reset();
     $imagePrev.setAttribute('src', 'images/placeholder-image-square.jpg');
@@ -141,30 +142,30 @@ $addButton.addEventListener('click', function (event) {
   data.mainPage = false;
 });
 
-$closeButton.addEventListener('click', function (event) {
+$closeButton.addEventListener('click', event => {
   $divModal.classList.add('hidden');
 });
 
 // add drink to My Cocktailz feature
-$ulSearch.addEventListener('click', function (event) {
+$ulSearch.addEventListener('click', event => {
   if (event.target.getAttribute('data-entry-id') !== null) {
     $noCocktail.classList.add('hidden');
-    var currentDrinkId = event.target.getAttribute('data-entry-id');
+    const currentDrinkId = event.target.getAttribute('data-entry-id');
 
-    for (var x = 0; x < prevData.drinks.length; x++) {
+    for (let x = 0; x < prevData.drinks.length; x++) {
       if (data.drinks[currentDrinkId].strDrink === prevData.drinks[x].strDrink) {
         $divModal.classList.remove('hidden');
         return;
       }
     }
 
-    for (var i = 0; i < prevData.drinks.length; i++) {
-      var firstChild = $ulDrinks.firstElementChild;
+    for (let i = 0; i < prevData.drinks.length; i++) {
+      const firstChild = $ulDrinks.firstElementChild;
       $ulDrinks.removeChild(firstChild);
     }
 
     prevData.drinks.unshift(data.drinks[currentDrinkId]); // unshift adds a drink to existing prevData object
-    for (var j = 0; j < prevData.drinks.length; j++) {
+    for (let j = 0; j < prevData.drinks.length; j++) {
       $ulDrinks.append(renderShow(prevData.drinks[j], j));
     }
     starCheck();
@@ -174,7 +175,7 @@ $ulSearch.addEventListener('click', function (event) {
 });
 
 // on submit edit drinks in My Cocktailz
-$form.addEventListener('submit', function (event) {
+$form.addEventListener('submit', event => {
   event.preventDefault();
   if (data.editIndex !== null) {
     prevData.drinks[data.editIndex].strDrinkThumb = $pictureURL.value;
@@ -182,29 +183,29 @@ $form.addEventListener('submit', function (event) {
     prevData.drinks[data.editIndex].strInstructions = $cocktailInstr.value;
     prevData.drinks[data.editIndex].recipe = $cocktailRecipe.value;
 
-    for (var i = 0; i < prevData.drinks.length; i++) {
-      var firstChild = $ulDrinks.firstElementChild;
+    for (let i = 0; i < prevData.drinks.length; i++) {
+      const firstChild = $ulDrinks.firstElementChild;
       $ulDrinks.removeChild(firstChild);
     }
 
-    for (var j = 0; j < prevData.drinks.length; j++) {
+    for (let j = 0; j < prevData.drinks.length; j++) {
       $ulDrinks.append(renderShow(prevData.drinks[j], j));
     }
     starCheck();
   } else {
-    var tempObj = {};
+    const tempObj = {};
     tempObj.strDrinkThumb = $pictureURL.value;
     tempObj.strDrink = $cocktailName.value;
     tempObj.strInstructions = $cocktailInstr.value;
     tempObj.recipe = $cocktailRecipe.value;
     prevData.drinks.unshift(tempObj);
 
-    for (var x = 0; x < prevData.drinks.length - 1; x++) {
-      firstChild = $ulDrinks.firstElementChild;
+    for (let x = 0; x < prevData.drinks.length - 1; x++) {
+      const firstChild = $ulDrinks.firstElementChild;
       $ulDrinks.removeChild(firstChild);
     }
 
-    for (var y = 0; y < prevData.drinks.length; y++) {
+    for (let y = 0; y < prevData.drinks.length; y++) {
       $ulDrinks.append(renderShow(prevData.drinks[y], y));
     }
 
