@@ -37,6 +37,7 @@ const $backButtonTwo = $('.back-two');
 const $forwardButton = $('.fas.fa-arrow-alt-circle-right');
 const $closeButton = $('.close-button');
 const $notFound = $('.not-found');
+const $noLoad = $('.no-load');
 const $noCocktail = $('.no-cocktail');
 const $userLogo = $('.far.fa-user');
 const $userInput = $('.user-input');
@@ -335,6 +336,13 @@ const getData = name => {
   xhr.open('GET', 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=' + name);
   xhr.responseType = 'json';
   xhr.send();
+
+  // initialize data failed to laod as hidden
+  $noLoad.classList.add('hidden');
+  xhr.addEventListener('error', () => {
+    $noLoad.classList.remove('hidden');
+  });
+
   xhr.addEventListener('load', () => {
     data.drinks = xhr.response.drinks;
     if (data.drinks !== null) {
