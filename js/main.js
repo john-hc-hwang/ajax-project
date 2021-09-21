@@ -337,7 +337,7 @@ const getData = name => {
   xhr.responseType = 'json';
   xhr.send();
 
-  // initialize data failed to laod as hidden
+  // initialize data failed to load as hidden
   $noLoad.classList.add('hidden');
   xhr.addEventListener('error', () => {
     $noLoad.classList.remove('hidden');
