@@ -6,6 +6,7 @@ const $$ = document.querySelectorAll.bind(document);
 const $$$ = document.createElement.bind(document);
 
 // global declartion & dom query
+// see line 335 for XMLHttpRequest
 let xhr;
 
 const $mainHeading = $('.main-heading');
